@@ -2,10 +2,8 @@ DROP DATABASE IF EXISTS menus;
 
 CREATE DATABASE menus;
 
-\c menus;
-
 CREATE TABLE restaurants (
-  rest_id SERIAL PRIMARY KEY,
+  rest_id SERIAL AUTO INCREMENT PRIMARY KEY,
   rest_name VARCHAR(50) NOT NULL
 );
 
