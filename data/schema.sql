@@ -2,8 +2,10 @@ DROP DATABASE IF EXISTS menus;
 
 CREATE DATABASE menus;
 
+\c menus;
+
 CREATE TABLE restaurants (
-  rest_id SERIAL AUTO INCREMENT PRIMARY KEY,
+  rest_id SERIAL PRIMARY KEY,
   rest_name VARCHAR(50) NOT NULL
 );
 
@@ -12,8 +14,7 @@ CREATE TABLE menu_items (
   item_name VARCHAR(50) NOT NULL,
   item_description VARCHAR(200),
   item_price NUMERIC NOT NULL,
-  item_url VARCHAR(100),
-  rest_id INTEGER REFERENCES restaurants ON DELETE CASCADE
+  item_url VARCHAR(100)
 );
 
 CREATE TABLE menu_headers (
@@ -36,6 +37,11 @@ CREATE TABLE menu_time (
   time_text VARCHAR(30),
   item_id INTEGER REFERENCES menu_items ON DELETE CASCADE,
   header_id INTEGER REFERENCES menu_headers ON DELETE CASCADE
+);
+
+CREATE TABLE restaurant_items (
+  rest_id INTEGER REFERENCES restaurants ON DELETE CASCADE,
+  item_id INTEGER REFERENCES menu_items ON DELETE CASCADE
 );
 
 CREATE TABLE item_header (
