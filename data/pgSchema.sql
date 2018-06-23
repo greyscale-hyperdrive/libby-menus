@@ -20,19 +20,12 @@ CREATE TABLE menu_items (
 
 CREATE TABLE menu_sections (
   section_id SERIAL PRIMARY KEY,
-  section_name VARCHAR(9) NOT NULL
+  section_name VARCHAR(60) NOT NULL
 );
 
 CREATE TABLE dietary_restrictions (
   restriction_id SERIAL PRIMARY KEY,
-  restriction_name VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE menu_time (
-  time_id SERIAL PRIMARY KEY,
-  time_text VARCHAR(30),
-  item_id INTEGER REFERENCES menu_items ON DELETE CASCADE,
-  rest_id INTEGER REFERENCES restaurants on DELETE CASCADE
+  restriction_name VARCHAR(60)
 );
 
 CREATE TABLE restaurant_items (
