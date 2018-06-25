@@ -23,7 +23,7 @@ const createFile = (streamWriter, data, entries) => {
 
 // create file for restaurants table
 const restaurantStream = fs.createWriteStream('./data/files/restaurants.csv');
-const generateRestaurantData = () => `${faker.lorem.words()},"${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}"\n`;
+const generateRestaurantData = () => `${faker.lorem.words()},"{${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}}"\n`;
 createFile(restaurantStream, generateRestaurantData, 10000000);
 
 // create file for menu_items table
@@ -39,23 +39,35 @@ createFile(itemsStream, generateItemData, 1000);
 // create file for menu_sections table
 const sectionArray = ['Breakfast', 'Lunch', 'Dinner', 'Brunch', 'Desserts', 'Drinks', 'Happy Hour'];
 const sectionsStream = fs.createWriteStream('./data/files/sections.csv');
-const generateSectionData = () => `"${chance.pickset(sectionArray, Math.floor((Math.random() * sectionArray.length) + 1)).join(',')}"\n`;
-createFile(sectionsStream, generateSectionData, 1000);
+const createFileFromArray = (streamWriter, data) => {
+  let i = 0;
+  const write = () => {
+    let drained = true;
+    do {
+      drained = streamWriter.write(`${data[i]}\n`);
+      i += 1;
+    } while (i < data.length && drained);
+    if (i < data.length) {
+      streamWriter.once('drain', write);
+    }
+  };
+  write();
+};
+createFileFromArray(sectionsStream, sectionArray);
 
 // create file for dietary_restrictions table
 const restrictionsArray = ['Vegetarian', 'Vegan', 'Gluten-Free', 'No Seafood', 'No Peanuts'];
 const restrictionsStream = fs.createWriteStream('./data/files/restrictions.csv');
-const generateRestrictionsData = () => `"${chance.pickset(restrictionsArray, Math.floor(Math.random() * sectionArray.length)).join(',')}"\n`;
-createFile(restrictionsStream, generateRestrictionsData, 1000);
+createFileFromArray(restrictionsStream, restrictionsArray);
 
 // create file for item_restrictions table
 const itemRestrictionsStream = fs.createWriteStream('./data/files/item_restrictions.csv');
-const generateItemRestrictionsData = () => `${Math.floor(Math.random() * (1000)) + 1},${Math.floor(Math.random() * 1000) + 1}\n`;
+const generateItemRestrictionsData = () => `${Math.floor(Math.random() * (1000)) + 1},${Math.floor(Math.random() * restrictionsArray.length + 1)}\n`;
 createFile(itemRestrictionsStream, generateItemRestrictionsData, 1000);
 
 // create file for item_section table
 const itemSectionStream = fs.createWriteStream('./data/files/item_section.csv');
-const generateItemSectionData = () => (Math.floor(Math.random() * 1000) + 1);
+const generateItemSectionData = () => (Math.floor(Math.random() * sectionArray.length) + 1);
 const createItemSectionFile = (streamWriter, data, entries) => {
   let i = 0;
   const write = () => {
@@ -80,7 +92,7 @@ const createRestaurantItemsFile = (streamWriter, entries) => {
     let drained = true;
     do {
       i += 1;
-      for (let j = 1; j < 15; j += 1) {
+      for (let j = 1; j < 16; j += 1) {
         drained = streamWriter.write(`${i},${Math.floor(Math.random() * 1000) + 1}\n`);
       }
     } while (i < entries && drained);

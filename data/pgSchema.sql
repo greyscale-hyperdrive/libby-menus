@@ -6,26 +6,26 @@ CREATE DATABASE menus;
 
 CREATE TABLE restaurants (
   rest_id SERIAL PRIMARY KEY,
-  rest_name VARCHAR(50) NOT NULL,
-  rest_headers VARCHAR(100) NOT NULL
+  rest_name TEXT NOT NULL,
+  rest_headers TEXT[] NOT NULL
 );
 
 CREATE TABLE menu_items (
   item_id SERIAL PRIMARY KEY,
-  item_name VARCHAR(50) NOT NULL,
-  item_description VARCHAR(200) NOT NULL,
+  item_name TEXT NOT NULL,
+  item_description TEXT NOT NULL,
   item_price NUMERIC NOT NULL,
-  item_url VARCHAR(100)
+  item_url TEXT
 );
 
 CREATE TABLE menu_sections (
   section_id SERIAL PRIMARY KEY,
-  section_name VARCHAR(60) NOT NULL
+  section_name TEXT NOT NULL
 );
 
 CREATE TABLE dietary_restrictions (
   restriction_id SERIAL PRIMARY KEY,
-  restriction_name VARCHAR(60)
+  restriction_name TEXT
 );
 
 CREATE TABLE restaurant_items (
