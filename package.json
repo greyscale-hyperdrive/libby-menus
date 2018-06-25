@@ -6,10 +6,11 @@
   "scripts": {
     "build": "webpack -p",
     "build-dev": "webpack -d --watch",
+    "cass-schema": "cqlsh -f ./data/cassandraSchema.cql",
     "generate": "node ./data/generateData.js",
-    "pgSchema": "psql -f ./data/schema.sql",
-    "pgSeed1": "psql -f ./data/seed1.sql",
-    "pgSeed2": "psql -f ./data/seed2.sql",
+    "pg-schema": "psql -f ./data/pgSchema.sql",
+    "pg-seed1": "psql -f ./data/pgSeed1.sql",
+    "pg-seed2": "psql -f ./data/pgSeed2.sql",
     "start": "node server/index.js",
     "server-dev": "nodemon server/index.js",
     "test": "jest"
