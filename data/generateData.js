@@ -5,7 +5,6 @@ const stream = require('stream');
 
 const chance = new Chance();
 
-// to create files to put in db
 const createFile = (streamWriter, data, entries) => {
   let i = entries;
   const write = () => {
@@ -21,9 +20,24 @@ const createFile = (streamWriter, data, entries) => {
   write();
 };
 
+const createFileFromArray = (streamWriter, data) => {
+  let i = 0;
+  const write = () => {
+    let drained = true;
+    do {
+      drained = streamWriter.write(`${data[i]}\n`);
+      i += 1;
+    } while (i < data.length && drained);
+    if (i < data.length) {
+      streamWriter.once('drain', write);
+    }
+  };
+  write();
+};
+
 // create file for restaurants table
 const restaurantStream = fs.createWriteStream('./data/files/restaurants.csv');
-const generateRestaurantData = () => `${faker.lorem.words()},"{${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}}"\n`;
+const generateRestaurantData = () => `${faker.lorem.words()},"${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}"\n`;
 createFile(restaurantStream, generateRestaurantData, 10000000);
 
 // create file for menu_items table
@@ -39,20 +53,6 @@ createFile(itemsStream, generateItemData, 1000);
 // create file for menu_sections table
 const sectionArray = ['Breakfast', 'Lunch', 'Dinner', 'Brunch', 'Desserts', 'Drinks', 'Happy Hour'];
 const sectionsStream = fs.createWriteStream('./data/files/sections.csv');
-const createFileFromArray = (streamWriter, data) => {
-  let i = 0;
-  const write = () => {
-    let drained = true;
-    do {
-      drained = streamWriter.write(`${data[i]}\n`);
-      i += 1;
-    } while (i < data.length && drained);
-    if (i < data.length) {
-      streamWriter.once('drain', write);
-    }
-  };
-  write();
-};
 createFileFromArray(sectionsStream, sectionArray);
 
 // create file for dietary_restrictions table
