@@ -20,7 +20,7 @@ const createFile = (streamWriter, data, entries) => {
   write();
 };
 
-const createRestaurantNamesArray = (num) => {
+const createRandomWordsArray = (num) => {
   const restaurantNamesArray = [];
   for (let i = 0; i < num; i += 1) {
     restaurantNamesArray.push(faker.lorem.words());
@@ -28,40 +28,40 @@ const createRestaurantNamesArray = (num) => {
   return restaurantNamesArray;
 };
 
-const createRestaurantItemNamesArray = (num) => {
-  const restaurantItemNames = [];
+const restaurantNames = createRandomWordsArray(10000000);
+const restaurantItemNames = createRandomWordsArray(1000);
+
+const createRestaurantItemArray = (num) => {
+  const restaurantItemArray = [];
   for (let i = 0; i < num; i += 1) {
-    restaurantItemNames.push(`${faker.lorem.words()}`);
+    restaurantItemArray.push(
+      `${restaurantItemNames[i]},`
+      + `${faker.lorem.sentence()},`
+      + `${chance.floating({ min: 0, max: 200, fixed: 2 })},`
+      + `${`https://s3-us-west-1.amazonaws.com/sdc-datatable/menu-item${Math.floor(Math.random() * 1035) + 1}.jpg`}`
+    );
   }
-  return restaurantItemNames;
+  return restaurantItemArray;
 };
 
-const restaurantNames = createRestaurantNamesArray(1000000);
-const restaurantItemNames = createRestaurantItemNamesArray(10);
+const restaurantItems = createRestaurantItemArray(restaurantItemNames.length);
 
 const createRestaurantItemsFile = (streamWriter, data) => {
-  let i = 0;
+  let i = -1;
   const write = () => {
     let drained = true;
     do {
       i += 1;
       for (let j = 0; j < 15; j += 1) {
-        drained = streamWriter.write(
-          `${data[i]},`
-          + `${restaurantItemNames[Math.floor(Math.random() * restaurantItemNames.length)]},`
-          + `${faker.lorem.sentence()},`
-          + `${chance.floating({ min: 0, max: 200, fixed: 2 })},`
-          + `${`https://s3-us-west-1.amazonaws.com/sdc-datatable/menu-item${Math.floor(Math.random() * 1035) + 1}.jpg`}\n`
-        );
+        drained = streamWriter.write(`${data[i]},${restaurantItems[Math.floor(Math.random() * restaurantItems.length)]}\n`);
       }
-    } while (i < data.length && drained);
-    if (i < data.length) {
+    } while (i < data.length - 1 && drained);
+    if (i < data.length - 1) {
       streamWriter.once('drain', write);
     }
   };
   write();
 };
-
 
 const createDietaryRestrictionsFile = () => {
   const dietaryRestrictionsArray = ['Vegetarian', 'Vegan', 'Gluten-Free', 'No Seafood', 'No Peanuts'];
@@ -86,7 +86,7 @@ const createMenuSectionsFile = () => {
 };
 
 const createRestaurantHeadersFile = (streamWriter, data) => {
-  let i = 0;
+  let i = -1;
   const write = () => {
     let drained = true;
     do {
@@ -97,8 +97,8 @@ const createRestaurantHeadersFile = (streamWriter, data) => {
           + `${faker.lorem.word()}\n`
         );
       }
-    } while (i < data.length && drained);
-    if (i < data.length) {
+    } while (i < data.length - 1 && drained);
+    if (i < data.length - 1) {
       streamWriter.once('drain', write);
     }
   };

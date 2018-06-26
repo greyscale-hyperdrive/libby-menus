@@ -6,8 +6,9 @@
   "scripts": {
     "build": "webpack -p",
     "build-dev": "webpack -d --watch",
-    "cass-schema": "cqlsh -f ./data/cassandraSchema.cql",
     "cass-generate": "node ./data/generateDataCassandra.js",
+    "cass-schema": "cqlsh -f ./data/cassSchema.cql",
+    "cass-seed": "cqlsh -f ./data/cassSeed.cql",
     "pg-generate": "node ./data/generateData.js",
     "pg-schema": "psql -f ./data/pgSchema.sql",
     "pg-seed1": "psql -f ./data/pgSeed1.sql",
