@@ -37,7 +37,7 @@ const createFileFromArray = (streamWriter, data) => {
 
 // create file for restaurants table
 const restaurantStream = fs.createWriteStream('./data/files/restaurants.csv');
-const generateRestaurantData = () => `${faker.lorem.words()},"${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}"\n`;
+const generateRestaurantData = () => `${faker.lorem.words()},"{${faker.lorem.word()},${faker.lorem.word()},${faker.lorem.word()}}"\n`;
 createFile(restaurantStream, generateRestaurantData, 10000000);
 
 // create file for menu_items table
