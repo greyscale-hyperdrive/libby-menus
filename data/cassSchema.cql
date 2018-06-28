@@ -25,9 +25,9 @@ CREATE TABLE dietary_restrictions (
 );
 
 CREATE TABLE menu_sections (
-  section_name TEXT,
   item_name TEXT,
-  PRIMARY KEY (section_name, item_name)
+  section_name TEXT
+  PRIMARY KEY (item_name, section_name)
 );
 
 CREATE TABLE restaurant_headers (

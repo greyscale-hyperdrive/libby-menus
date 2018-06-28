@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('../database/index');
+const db = require('../database/config');
 
 const app = express();
 
@@ -8,12 +8,13 @@ app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../pub
 app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
 
 app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
-  db.retrieve(req.params.restaurantId, (err, results) => {
-    if (err && err.message.includes('Cast to number failed for value "NaN"')) {
-      res.status(400).json('Bad request');
-    } else if (err) {
+  const text = 'SELECT r.rest_name, r.rest_headers, i.item_id, i.item_description, i.item_price, i.item_url, s.section_name, d.restriction_name FROM restaurants r INNER JOIN restaurant_items ri on r.rest_id = ri.rest_id INNER JOIN menu_items i on ri.item_id = i.item_id INNER JOIN item_section si on i.item_id = si.item_id INNER JOIN menu_sections s on si.section_id = s.section_id LEFT JOIN item_restrictions ir on i.item_id = ir.item_id LEFT JOIN dietary_restrictions d on ir.restriction_id = d.restriction_id WHERE r.rest_id = $1;';
+  const values = [req.params.restaurantId];
+  db.query(text, values, (err, results) => {
+    if (err) {
       res.status(500).json('Unable to retrieve menu data from database');
     } else {
+      console.log(results);
       res.status(200).json(results);
     }
   });
