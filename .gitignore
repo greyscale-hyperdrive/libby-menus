@@ -2,3 +2,4 @@ node_modules/
 public/dist/bundle.js
 data/files/
 database/config.js
+newrelic.js
