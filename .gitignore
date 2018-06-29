@@ -3,3 +3,4 @@ public/dist/bundle.js
 data/files/
 database/config.js
 newrelic.js
+newrelic_agent.log
