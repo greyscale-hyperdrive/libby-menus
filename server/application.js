@@ -1,8 +1,19 @@
 const express = require('express');
+// const morgan = require('morgan');
 const path = require('path');
 const db = require('../database/config');
 
 const app = express();
+
+// app.use(morgan('dev', {
+//   skip: (req, res) => res.statusCode < 400,
+//   stream: process.stderr,
+// }));
+
+// app.use(morgan('dev', {
+//   skip: (req, res) => res.statusCode >= 400,
+//   stream: process.stdout,
+// }));
 
 app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public/index.html')));
 app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
