@@ -15,7 +15,7 @@
     "pg-seed2": "psql -f ./data/pgSeed2.sql",
     "start": "node server/index.js",
     "server-dev": "nodemon server/index.js",
-    "test": "jest"
+    "test": "mocha"
   },
   "dependencies": {
     "axios": "^0.18.0",
