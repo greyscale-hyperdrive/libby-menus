@@ -36,29 +36,37 @@ describe('CRUD operations', () => {
   });
   it('should update item price on PUT request to that endpoint', (done) => {
     chai.request(server)
-      .put('/menus/restaurant/1/menu/price')
-      .send({
-        item_id: 1069,
-        item_price: 3.00,
-      })
+      .get('/menus/restaurant/1/menu')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('string');
-        res.body.should.equal('Data successfully updated');
-        done();
+        chai.request(server)
+          .put('/menus/restaurant/1/menu/price')
+          .send({
+            item_id: res.body.rows[0].item_id,
+            item_price: 3.00,
+          })
+          .end((err2, res2) => {
+            res2.should.have.status(200);
+            res2.body.should.be.a('string');
+            res2.body.should.equal('Data successfully updated');
+            done();
+          });
       });
   });
   it('should delete an item on DELETE request to that endpoint', (done) => {
     chai.request(server)
-      .delete('/menus/restaurant/1/menu/')
-      .send({
-        item_id: 1065,
-      })
+      .get('/menus/restaurant/1/menu')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('string');
-        res.body.should.equal('Data successfully deleted');
-        done();
+        chai.request(server)
+          .delete('/menus/restaurant/1/menu')
+          .send({
+            item_id: res.body.rows[0].item_id,
+          })
+          .end((err2, res2) => {
+            res2.should.have.status(200);
+            res2.body.should.be.a('string');
+            res2.body.should.equal('Data successfully deleted');
+            done();
+          });
       });
   });
 });
