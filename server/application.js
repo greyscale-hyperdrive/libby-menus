@@ -72,7 +72,7 @@ app.put('/menus/restaurant/:restaurantId/menu/price', (req, res) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.json('Data successfully updated');
+      res.status(200).json('Data successfully updated');
     }
   });
 });
