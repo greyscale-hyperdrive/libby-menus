@@ -15,8 +15,6 @@ app.use(morgan('dev', {
   stream: process.stdout,
 }));
 
-db.connect();
-
 app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public/index.html')));
 app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
 
@@ -37,7 +35,6 @@ app.get('/menus/restaurant/:restaurantId/menu', (req, res) => {
     } else {
       res.status(200).json(result);
     }
-    db.end();
   });
 });
 
