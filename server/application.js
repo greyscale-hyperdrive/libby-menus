@@ -14,11 +14,8 @@ app.use(morgan('dev', {
   skip: (req, res) => res.statusCode >= 400,
   stream: process.stdout,
 }));
-<<<<<<< HEAD
 
 app.use(express.json());
-=======
->>>>>>> testing
 
 app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../public/index.html')));
 app.use('/menusBundle.js', express.static(path.join(__dirname, '../public/dist/bundle.js')));
