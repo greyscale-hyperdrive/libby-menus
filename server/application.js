@@ -68,12 +68,11 @@ app.post('/menus/restaurant/:restaurantId/menu', (req, res) => {
 
 app.put('/menus/restaurant/:restaurantId/menu/price', (req, res) => {
   const text = `UPDATE menu_items SET item_price = ${req.body.item_price} WHERE item_id=${req.body.item_id};`;
-  db.query(text, err => {
+  db.query(text, (err) => {
     if (err) {
       res.sendStatus(500);
-      throw err;
     } else {
-      res.status(204).json('Data successfully updated');
+      res.json('Data successfully updated');
     }
   });
 });
