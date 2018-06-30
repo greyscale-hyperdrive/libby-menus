@@ -1,0 +1,30 @@
+config:
+  target: "http://localhost:3005"
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      name: "Warm up the application"
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 5
+      name: "Jump to max load"
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 6
+      name: "Jump to max load"
+    - duration: 60
+      arrivalRate: 6
+      name: "Keep at the max load"
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 1
+      name: "Calm down"
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+scenarios:
+    - flow:
+        - loop:
+            - get:
+                url: "/menus/restaurant/{{$randomNumber(9000000, 10000000)}}/menu/"
+          count: 100

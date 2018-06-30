@@ -48,12 +48,14 @@ const restaurantItems = createRestaurantItemArray(restaurantItemNames.length);
 
 const createRestaurantItemsFile = (streamWriter, data) => {
   let i = -1;
+  let count = 0;
   const write = () => {
     let drained = true;
     do {
       i += 1;
+      count += 1;
       for (let j = 0; j < 15; j += 1) {
-        drained = streamWriter.write(`${data[i]},${restaurantItems[Math.floor(Math.random() * restaurantItems.length)]}\n`);
+        drained = streamWriter.write(`${count},${data[i]},${restaurantItems[Math.floor(Math.random() * restaurantItems.length)]}\n`);
       }
     } while (i < data.length - 1 && drained);
     if (i < data.length - 1) {

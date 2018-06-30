@@ -9,12 +9,13 @@ CREATE KEYSPACE menus
 USE menus;
 
 CREATE TABLE restaurants (
+  rest_id INT,
   rest_name TEXT,
   item_name TEXT,
   item_description TEXT,
   item_price DECIMAL,
   item_url TEXT,
-  PRIMARY KEY (rest_name, item_name)
+  PRIMARY KEY (rest_id, rest_name, item_name)
 );
 
 CREATE TABLE dietary_restrictions (
@@ -24,9 +25,9 @@ CREATE TABLE dietary_restrictions (
 );
 
 CREATE TABLE menu_sections (
-  section_name TEXT,
   item_name TEXT,
-  PRIMARY KEY (section_name, item_name)
+  section_name TEXT
+  PRIMARY KEY (item_name, section_name)
 );
 
 CREATE TABLE restaurant_headers (
