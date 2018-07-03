@@ -9,13 +9,14 @@
     "cass-generate": "node ./data/generateDataCassandra.js",
     "cass-schema": "cqlsh -f ./data/cassSchema.cql",
     "cass-seed": "cqlsh -f ./data/cassSeed.cql",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "pg-generate": "node ./data/generateData.js",
     "pg-schema": "psql -f ./data/pgSchema.sql",
     "pg-seed1": "psql -f ./data/pgSeed1.sql",
     "pg-seed2": "psql -f ./data/pgSeed2.sql",
     "start": "node server/index.js",
     "server-dev": "nodemon server/index.js",
-    "test": "jest"
+    "test": "nyc --reporter=html --reporter=text mocha"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -43,6 +44,7 @@
     "webpack-cli": "^2.1.5"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.0.1",
     "babel-loader": "^7.1.4",
@@ -50,6 +52,7 @@
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.3.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
@@ -60,6 +63,7 @@
     "jest": "^23.1.0",
     "jest-cli": "^23.1.0",
     "nodemon": "^1.17.5",
+    "nyc": "^12.0.2",
     "supertest": "^3.1.0"
   },
   "repository": {
@@ -67,6 +71,9 @@
     "url": "git+https://github.com/greyscale-hyperdrive/libby-menus.git"
   },
   "author": "libby li",
+  "engines": {
+    "node": ">=6.13.0"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/greyscale-hyperdrive/libby-menus/issues"
